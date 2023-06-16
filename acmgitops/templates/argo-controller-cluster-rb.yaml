@@ -7,7 +7,7 @@ metadata:
     argocd.argoproj.io/sync-wave: "-2"
 roleRef:
   apiGroup: rbac.authorization.k8s.io
-  kind: clusterRole
+  kind: ClusterRole
   name: cluster-reader
 subjects:
 - kind: User
