@@ -10,5 +10,3 @@ roleRef:
 subjects:
 - kind: User
   name: system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller
-- kind: User
-  name: system:serviceaccount:openshift-gitops:openshift-gitops-argocd-applicationset-controller  
