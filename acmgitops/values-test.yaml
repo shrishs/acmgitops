@@ -5,7 +5,7 @@
 replicaCount: 2
 
 image:
-  repository: registry.access.redhat.com/rhscl/httpd-24-rhel7
+  repository: registry.access.redhat.com/rhscl/httpd-24-rhel7:2.4-214
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
