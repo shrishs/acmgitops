@@ -1,0 +1,42 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: helm-app
+  namespace: openshift-gitops
+spec:
+  generators:
+    - matrix:
+        generators:
+          - git: # generator listing folders (different countries - at, be, bg)
+              repoURL: https://github.com/shrishs/acmgitops
+              revision: main
+              directories:
+              - path: acmgitops/env/*
+          - clusterDecisionResource: # generator selecting clusters 
+              configMapRef: acm-placement
+              labelSelector:
+                matchLabels:
+                  cluster.open-cluster-management.io/placement: all-openshift-clusters
+              requeueAfterSeconds: 180
+  template:
+    metadata:
+      name: 'helm-app-{{path.basename}}'
+    spec:
+      project: "default"
+      source: 
+        helm:
+          valueFiles:
+          - env/{{path.basename}}/values.yaml      
+        repoURL: https://github.com/shrishs/acmgitops
+        targetRevision: 
+        path: acmgitops
+      destination:
+        server: '{{server}}'
+        namespace: nginx-{{path.basename}}
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+---
